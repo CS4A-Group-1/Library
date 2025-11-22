@@ -27,13 +27,7 @@ public class LibraryFileIO {
             LibraryStorage storage = (LibraryStorage)input.readObject();
             savedStorage = storage;
         }
-        catch (FileNotFoundException ex) {
-            savedStorage = new LibraryStorage();
-        }
-        catch (IOException ex) {
-            savedStorage = new LibraryStorage();
-        }
-        catch (ClassNotFoundException ex) {
+        catch (IOException | ClassNotFoundException ex) {
             savedStorage = new LibraryStorage();
         }
         return savedStorage;
