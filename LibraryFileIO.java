@@ -5,24 +5,24 @@ public class LibraryFileIO {
     //=====================================
     //  Data
 
-    private String filename;
+    //private String filename;
 
     //=====================================
     //  Constructors
 
     // TODO
-    public LibraryFileIO(String filename) {
-        this.filename = filename;
-    }
+    // public LibraryFileIO(String filename) {
+    //     this.filename = filename;
+    // }
 
     //=====================================
     // Read Operations
 
     // TODO
-    public LibraryStorage loadLibraryData() {
+    public static LibraryStorage loadLibraryData(String filename) {
         LibraryStorage savedStorage;
         try (
-            ObjectInputStream input = new ObjectInputStream(new FileInputStream(this.filename));
+            ObjectInputStream input = new ObjectInputStream(new FileInputStream(filename));
         ) {
             LibraryStorage storage = (LibraryStorage)input.readObject();
             savedStorage = storage;
@@ -34,9 +34,9 @@ public class LibraryFileIO {
     }
 
     // TODO
-    public boolean saveLibraryData(LibraryStorage storage) {
+    public boolean saveLibraryData(LibraryStorage storage, String filename) {
         try (
-            ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(this.filename, false));
+            ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(filename, false));
         ) {
             output.writeObject(storage);
             return true;
