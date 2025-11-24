@@ -28,7 +28,7 @@ public class Shelf {
         return this.section;
     }
 
-    // Replace compartment at index
+    //replace compartment at index
     public void setCompartment(Compartment c, int i) {
         if (i < 0 || i >= compartments.size()) {
             throw new IndexOutOfBoundsException("Invalid compartment index.");
@@ -55,17 +55,6 @@ public class Shelf {
         compartments.add(new Compartment(item));
         return true;
     }
-
-    // Swap two differ compartments 
-    // READ!!!!! pretty sure we said we didnt want this in shelf but i added it because i wasnt sure delete if not needed
-    /*public void swapCompartments(int i, int j) {
-        if (i < 0 || j < 0 || i >= compartments.size() || j >= compartments.size()) {
-            throw new IndexOutOfBoundsException("Invalid compartment index.");
-        }
-        Compartment temp = compartments.get(i);
-        compartments.set(i, compartments.get(j));
-        compartments.set(j, temp);
-    }*/
 
     @Override
     public String toString() {
