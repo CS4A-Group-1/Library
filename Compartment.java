@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Compartment implements Serializable {
@@ -46,7 +47,7 @@ public class Compartment implements Serializable {
 
     // GETTERS
     public Item getItem() {
-        return item;
+        return new Item(this.item); //Assumes Item has defined a 'copy constructor'
     }
 
     public boolean getIsCheckedOut() {
@@ -58,7 +59,7 @@ public class Compartment implements Serializable {
     }
 
     public Date getCheckoutDate() {
-        return checkoutDate;
+        return new Date(checkoutDate.getTime());
     }
 
     public Date getDueDate() {
@@ -67,5 +68,8 @@ public class Compartment implements Serializable {
         return new Date(checkoutDate.getTime() + DUE_DATE_OFFSET);
     }
 
-    //TODO toString()
+    public long getDueDateOffset(){
+        return DUE_DATE_OFFSET;
+    }
+
 }
