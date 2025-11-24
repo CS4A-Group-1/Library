@@ -72,4 +72,17 @@ public class Compartment implements Serializable {
         return DUE_DATE_OFFSET;
     }
 
+    @Override
+    public String toString(){
+        //toString() the Item
+        String textualData = this.item.toString();
+
+        //add the Compartment data
+        textualData += String.valueOf(this.isCheckedOut) + "|" + this.currentBorrower + "|";
+
+        //Convert the date object into mm/dd/yyyy, then append
+        textualData += new SimpleDateFormat("MM/dd/yyyy").format(this.checkoutDate) + "||" ;
+
+        return textualData;
+    }
 }
