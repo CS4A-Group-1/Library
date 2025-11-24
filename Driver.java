@@ -42,3 +42,12 @@ public class Driver {
         } catch (Throwable t) {
             System.out.println("[SKIPPED] getItem not implemented yet");
         }
+
+          // 3) Checkout
+        step("Checkout");
+        try {
+            boolean checkedOut = storage.checkOutItem(0, 0, "Alice", new Date());
+            System.out.println("checkOutItem(0,0, Alice, today) -> " + checkedOut);
+        } catch (Throwable t) {
+            System.out.println("[SKIPPED] checkOutItem not implemented yet");
+        }
