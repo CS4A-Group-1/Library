@@ -51,3 +51,14 @@ public class Driver {
         } catch (Throwable t) {
             System.out.println("[SKIPPED] checkOutItem not implemented yet");
         }
+
+         // 4) Displays
+        step("Displays");
+        try {
+            display.printItemsInStorage();
+            display.printCheckedOutItems();
+        } catch (Throwable t) {
+            System.out.println("[SKIPPED] display methods not ready");
+        }
+
+
