@@ -1,24 +1,13 @@
 import java.io.*;
 
 public class LibraryFileIO {
-    
-    //=====================================
-    //  Data
-
-    //private String filename;
-
     //=====================================
     //  Constructors
-
-    // TODO
-    // public LibraryFileIO(String filename) {
-    //     this.filename = filename;
-    // }
+    private LibraryFileIO() {}
 
     //=====================================
-    // Read Operations
+    // LibraryStorage I/O Operations
 
-    // TODO
     public static LibraryStorage loadLibraryData(String filename) {
         LibraryStorage savedStorage;
         try (
@@ -33,7 +22,6 @@ public class LibraryFileIO {
         return savedStorage;
     }
 
-    // TODO
     public boolean saveLibraryData(LibraryStorage storage, String filename) {
         try (
             ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(filename, false));
