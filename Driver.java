@@ -43,11 +43,19 @@ public class Driver {
             System.out.println("[SKIPPED] getItem not implemented yet");
         }
 
-          // 3) Checkout
-        step("Checkout");
+         // 3) Checkout using compartment reference from shelf
+        step("Checkout via Compartment");
         try {
-            boolean checkedOut = storage.checkOutItem(0, 0, "Alice", new Date());
-            System.out.println("checkOutItem(0,0, Alice, today) -> " + checkedOut);
+            Shelf shelf0 = storage.getShelf(0);                   
+            Compartment slot00 = shelf0 != null ? shelf0.getCompartment(0) : null;  
+            boolean checkedOut;
+            if (slot00 != null) {
+                checkedOut = storage.checkOutItem(slot00, "Alice", new Date());
+                System.out.println("checkOutItem(slot00, Alice, today) -> " + checkedOut);
+            } else {
+                checkedOut = storage.checkOutItem(0, 0, "Alice", new Date());
+                System.out.println("checkOutItem(0,0, Alice, today) -> " + checkedOut);
+            }
         } catch (Throwable t) {
             System.out.println("[SKIPPED] checkOutItem not implemented yet");
         }
