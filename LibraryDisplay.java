@@ -14,7 +14,6 @@ public class LibraryDisplay {
         
         ArrayList<Shelf> shelves = libraryStorage.getShelves();
         
-        // Use full variable names for descriptive loops
         for (int shelfIndex = 0; shelfIndex < shelves.size(); shelfIndex++) {
             Shelf currentShelf = shelves.get(shelfIndex);
             ArrayList<Compartment> compartments = currentShelf.getCompartments();
@@ -22,7 +21,6 @@ public class LibraryDisplay {
             for (int compartmentIndex = 0; compartmentIndex < compartments.size(); compartmentIndex++) {
                 Compartment currentCompartment = compartments.get(compartmentIndex);
                 
-                // Only print if there is an item and it is NOT checked out
                 if (currentCompartment.getItem() != null && !currentCompartment.getIsCheckedOut()) {
                     System.out.println("Location: Shelf " + shelfIndex + ", Compartment " + compartmentIndex);
                     System.out.println("Item Details: " + currentCompartment.getItem().toString());
@@ -55,3 +53,4 @@ public class LibraryDisplay {
         }
     }
 }
+
