@@ -35,10 +35,6 @@ public class LibraryStorage implements Serializable {
     }
 
     //===============================================
-    //  Compartments
-
-
-    //===============================================
     //  Items
 
     // TODO -> check if a COMPARTMENT exists, if one doesn't then add it
@@ -113,7 +109,7 @@ public class LibraryStorage implements Serializable {
             ArrayList<Compartment> compartments = shelf.getCompartments();
             for (Compartment c: compartments) {
                 if (!c.getIsCheckedOut()) {
-                    items.append(c);
+                    items.add(c.getItem());
                 }
             }
         }
@@ -126,7 +122,7 @@ public class LibraryStorage implements Serializable {
             ArrayList<Compartment> compartments = shelf.getCompartments();
             for (Compartment c: compartments) {
                 if (c.getIsCheckedOut()) {
-                    items.append(c);
+                    items.add(c.getItem());
                 }
             }
         }
