@@ -69,3 +69,31 @@ public class Driver {
         } catch (Throwable t) {
             System.out.println("[SKIPPED] checkInItem not implemented yet");
         }
+
+         // 6) Swap
+        step("Swap");
+        try {
+            Item natureMagazine = new TestItem("Magazine: Nature", "placeholder", "MG-003");
+            storage.addItem(natureMagazine, 0, 2);
+            boolean swapped = storage.swapItems(0, 1, 0, 2);
+            System.out.println("swapItems(0,1) <-> (0,2) -> " + swapped);
+            System.out.println("post-swap getItem(0,1) -> " + storage.getItem(0, 1));
+            System.out.println("post-swap getItem(0,2) -> " + storage.getItem(0, 2));
+        } catch (Throwable t) {
+            System.out.println("[SKIPPED] swapItems not implemented yet");
+        }
+
+        // 7) Binary I/O
+        step("Binary I/O");
+        try {
+            boolean saved = storage.saveToFile();
+            System.out.println("saveToFile() -> " + saved);
+            LibraryStorage loaded = storage.loadFromFile();
+            System.out.println("loadFromFile() -> " + (loaded != null));
+        } catch (Throwable t) {
+            System.out.println("[SKIPPED] file I/O not implemented yet");
+        }
+
+        System.out.println("\nDone");
+    }
+}
