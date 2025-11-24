@@ -47,7 +47,13 @@ public class Compartment implements Serializable {
 
     // GETTERS
     public Item getItem() {
-        return new Item(this.item); //Assumes Item has defined a 'copy constructor'
+        //Item is abstract, cant "return new Item(this.item);", 
+        // check what type item is, and return a copy based off its evaluated type
+        if (item instanceof Book) return new Book((Book)item);
+        if (item instanceof Magazine) return new Magazine((Magazine)item);
+        if (item instanceof Movie) return new Movie((Movie)item);
+
+        return null; 
     }
 
     public boolean getIsCheckedOut() {
