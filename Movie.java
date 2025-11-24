@@ -2,45 +2,53 @@ import java.util.ArrayList;
 
 public class Movie extends Item {
 
-//declaring variables
-private String title;
-private String director;
-private ArrayList<String> mainActors;
+    //declaring variables
+    private String title;
+    private String director;
+    private ArrayList<String> mainActors;
 
-//constructors
-public Movie(){
-    super();
-    this.title = "";
-    this.director = "";
-    this.mainActors = new ArrayList<>();
-}
+    //constructors
+    public Movie(){
+        super();
+        this.title = "";
+        this.director = "";
+        this.mainActors = new ArrayList<>();
+    }
 
-public Movie(String n, String d, String id, String t, String drct, ArrayList<String> mnActr){
-    super(n, d, id);
-    this.title = t;
-    this.director = drct;
-    this.mainActors = mnActr;
-}
+    public Movie(Movie other) {
+        super(other);
+        this.title = other.title;
+        this.director = other.director;
+        this.mainActors = new ArrayList<>(other.mainActors); // deep copy
+    }
 
-//get title, director, main actors
-public String getTitle(){
-    return title;
-}
 
-public String getDirector(){
-    return director;
-}
+    public Movie(String n, String d, String id, String t, String drct, ArrayList<String> mnActr){
+        super(n, d, id);
+        this.title = t;
+        this.director = drct;
+        this.mainActors = mnActr;
+    }
 
-public ArrayList<String> getMainActors(){
-    return mainActors;
-}
+    //get title, director, main actors
+    public String getTitle(){
+        return title;
+    }
 
-//toString overload
-@Override
- public String toString() {
-    return "||" + getName() + "|" + getDescription() +
-    "|" + getID()+ "|" + title + "|" + director +
-    "|" + mainActors + "||";
-}
+    public String getDirector(){
+        return director;
+    }
+
+    public ArrayList<String> getMainActors(){
+        return mainActors;
+    }
+
+    //toString overload
+    @Override
+    public String toString() {
+        return "|" + getName() + "|" + getDescription() +
+        "|" + getID()+ "|" + title + "|" + director +
+        "|" + mainActors + "|";
+    }
 
 }

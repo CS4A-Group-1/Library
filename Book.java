@@ -1,46 +1,52 @@
 public class Book extends Item {
 
-//declaring variables
-private String title;
-private String author;
-private String copyrightDate;
+    //declaring variables
+    private String title;
+    private String author;
+    private String copyrightDate;
 
-//constructor
-public Book() {
-    super();
-    this.title = "";
-    this.author = "";
-    this.copyrightDate = "";
-
+    //constructor
+    public Book() {
+        super();
+        this.title = "";
+        this.author = "";
+        this.copyrightDate = "";
     }
 
-//overloaded constructor
-public Book(String n, String d, String id, String t, String a, String c) {
-    super(n, d, id);
-    this.title = t;
-    this.author = a;
-    this.copyrightDate = c;
-}
+    public Book(Book other) {
+        super(other);   // calls Item(Item other)
+        this.title = other.title;
+        this.author = other.author;
+        this.copyrightDate = other.copyrightDate;
+    }
 
-//get title, author, copyright
-public String getTitle() {
-    return title;
-}
+    //overloaded constructor
+    public Book(String n, String d, String id, String t, String a, String c) {
+        super(n, d, id);
+        this.title = t;
+        this.author = a;
+        this.copyrightDate = c;
+    }
 
-public String getAuthor() {
-    return author;
-}
+    //get title, author, copyright
+    public String getTitle() {
+        return title;
+    }
 
-public String getCopyrightDate() {
-    return copyrightDate;
-}
+    public String getAuthor() {
+        return author;
+    }
 
-//toString overload
-@Override
- public String toString() {
-    return "||" + getName() + "|" + getDescription() +
-    "|" + getID()+ "|" + title + "|" + author +
-    "|" + copyrightDate + "||";
-}
+    public String getCopyrightDate() {
+        return copyrightDate;
+    }
+
+    //toString overload
+    @Override
+    public String toString() {
+        return "|" + getName() + "|" + getDescription() +
+        "|" + getID()+ "|" + title + "|" + author +
+        "|" + copyrightDate + "|";
+    }
 
 }
