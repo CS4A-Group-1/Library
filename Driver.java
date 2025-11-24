@@ -1,68 +1,44 @@
-// Driver.java
-import java.util.Scanner;
+import java.util.Date;
 
 public class Driver {
+
+    // Minimal concrete item for testing, we can just remove this when real subclasses are ready.
+    private static final class TestItem extends Item {
+        public TestItem(String name, String description, String id) {
+            super(name, description, id);
+        }
+        @Override
+        public String toString() {
+            return "TestItem{name=" + getName() + ", id=" + getId() + "}";
+        }
+    }
+
+    private static void step(String label) {
+        System.out.println("\n== " + label);
+    }
+
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        LibraryStorage storage = new LibraryStorage();    // teammates’ class
+        LibraryStorage storage = new LibraryStorage();
         LibraryDisplay display = new LibraryDisplay(storage);
 
-        String choice = "";
-        while (!"8".equals(choice)) {
-            System.out.println("\n===== Library Inventory =====");
-            System.out.println("1. Add item");
-            System.out.println("2. Checkout item");
-            System.out.println("3. Checkin item");
-            System.out.println("4. Print items in storage");
-            System.out.println("5. Print checked-out items");
-            System.out.println("6. Swap two compartments");
-            System.out.println("7. Save and exit");
-            System.out.println("8. Exit");
-            System.out.print("Enter choice: ");
-            choice = in.nextLine().trim();
-
-            switch (choice) {
-                case "1" -> {
-                    System.out.println("[Stub] Add item");
-                    // later: collect type and fields, then call storage.addItem(...)
-                }
-                case "2" -> {
-                    System.out.println("[Stub] Checkout item");
-                    // later: ask shelf, compartment, borrower, due date, call storage.checkoutItem(...)
-                }
-                case "3" -> {
-                    System.out.println("[Stub] Checkin item");
-                    // later: ask shelf, compartment, call storage.checkinItem(...)
-                }
-                case "4" -> {
-                    display.printItemsInStorage();
-                    pause(in);
-                }
-                case "5" -> {
-                    display.printCheckedOutItems();
-                    pause(in);
-                }
-                case "6" -> {
-                    System.out.println("[Stub] Swap compartments");
-                    // later: ask s1,c1,s2,c2 then storage.swapCompartments(...)
-                }
-                case "7" -> {
-                    System.out.println("[Stub] Save to file then exit");
-                    // later: LibraryFileIO.saveLibraryData(storage); then break loop
-                    break;
-                }
-                case "8" -> System.out.println("Goodbye.");
-                default -> {
-                    System.out.println("Invalid choice.");
-                    pause(in);
-                }
-            }
+        // 1) Add items
+        step("Add items");
+        Item duneBook = new TestItem("Book: Dune", "placeholder", "BOOK-001");
+        Item interstellarMovie = new TestItem("Movie: Interstellar", "placeholder", "MOVIE-002");
+        try {
+            boolean placedDune = storage.addItem(duneBook, 0, 0);
+            boolean placedInterstellar = storage.addItem(interstellarMovie, 0, 1);
+            System.out.println("addItem(Dune, 0,0) -> " + placedDune);
+            System.out.println("addItem(Interstellar, 0,1) -> " + placedInterstellar);
+        } catch (Throwable t) {
+            System.out.println("[SKIPPED] addItem not implemented yet");
         }
-        in.close();
-    }
 
-    private static void pause(Scanner in) {
-        System.out.print("Press Enter to continue...");
-        in.nextLine();
-    }
-}
+        // 2) Get items
+        step("Get items");
+        try {
+            System.out.println("getItem(0,0) -> " + storage.getItem(0, 0));
+            System.out.println("getItem(0,1) -> " + storage.getItem(0, 1));
+        } catch (Throwable t) {
+            System.out.println("[SKIPPED] getItem not implemented yet");
+        }
