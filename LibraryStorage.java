@@ -17,29 +17,30 @@ public class LibraryStorage implements Serializable {
     //  Constructors
 
     public LibraryStorage() {
-        this.libraryShelves = new ArrayList<Shelf>();
+        this.libraryShelves = new ArrayList<>();
     }
 
     //===============================================
     //  Shelves
     
     public ArrayList<Shelf> getShelves() {
-        return new ArrayList<Shelf>(this.libraryShelves);
+        return new ArrayList<>(this.libraryShelves);
     }
 
-    // TODO -> check if a SHELF exists, if one doesn't then add it
     public void addShelf(Shelf shelf) {
-        if (shelf != null) {
-            this.libraryShelves.add(shelf);
+        if (shelf == null) {
+            throw new IllegalStateException("Shelf cannot be null.");
         }
+        this.libraryShelves.add(shelf);
     }
 
     //===============================================
     //  Items
 
-    // TODO -> check if a COMPARTMENT exists, if one doesn't then add it
     public boolean addItem(Item item, int shelf, int compartment) {
-        // check compartment at shelf
+        if (item == null) {
+            throw new IllegalStateException("Item cannot be null.");
+        }
         try {
             Shelf selectedShelf = this.libraryShelves.get(shelf);
             Compartment selectedCompartment = selectedShelf.getCompartment(compartment);
@@ -57,8 +58,10 @@ public class LibraryStorage implements Serializable {
         }
     }
 
-    // TODO -> check if an Item exists, if one doesn't then add it
     public boolean replaceItem(Item item, int shelf, int compartment) {
+        if (item == null) {
+            throw new IllegalStateException("Item cannot be null.");
+        }
         try {
             Shelf selectedShelf = this.libraryShelves.get(shelf);
             if (!selectedShelf.getCompartment(compartment).getIsCheckedOut()) {
@@ -86,8 +89,10 @@ public class LibraryStorage implements Serializable {
         }
     }
     
-    // TODO -> check if a COMPARTMENT exists, if one doesn't then add it
     public Date checkOutItem(Compartment compartment, String borrower) {
+        if (compartment == null) {
+            throw new IllegalStateException("Compartment cannot be null.");
+        }
         if (!compartment.getIsCheckedOut()) {
             compartment.checkOut(borrower);
             return compartment.getDueDate();
@@ -95,8 +100,10 @@ public class LibraryStorage implements Serializable {
             return null;
     }
     
-    // TODO -> check if a COMPARTMENT exists, if one doesn't then add it
     public boolean checkInItem(Compartment compartment) {
+        if (compartment == null) {
+            throw new IllegalStateException("Compartment cannot be null.");
+        }
         if (compartment.getIsCheckedOut()) {
             compartment.checkIn();
             return true;

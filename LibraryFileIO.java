@@ -22,7 +22,7 @@ public class LibraryFileIO {
         return savedStorage;
     }
 
-    public boolean saveLibraryData(LibraryStorage storage, String filename) {
+    public static boolean saveLibraryData(LibraryStorage storage, String filename) {
         try (
             ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(filename, false));
         ) {
