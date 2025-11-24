@@ -60,5 +60,12 @@ public class Driver {
         } catch (Throwable t) {
             System.out.println("[SKIPPED] display methods not ready");
         }
-
-
+        
+        // 5) Check in
+        step("Check in");
+        try {
+            boolean checkedIn = storage.checkInItem(0, 0);
+            System.out.println("checkInItem(0,0) -> " + checkedIn);
+        } catch (Throwable t) {
+            System.out.println("[SKIPPED] checkInItem not implemented yet");
+        }
