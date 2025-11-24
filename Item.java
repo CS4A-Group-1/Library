@@ -1,35 +1,39 @@
 public abstract class Item {
-//declaring variables
-private String name;
-private String description;
-private String id;
+    //declaring variables
+    private String name;
+    private String description;
+    private String id;
 
-public Item(){
-    this.name = "";
-    this.description = "";
-    this.id = "";
+    protected Item(){
+        this.name = "";
+        this.description = "";
+        this.id = "";
+    }
 
-}
+    protected Item(Item other) {
+        this.name = other.name;
+        this.description = other.description;
+        this.id = other.id;
+    }
 
-public Item(String n, String d, String i){
-    this.name = n;
-    this.description = d;
-    this.id = i;
+    protected Item(String n, String d, String i){
+        this.name = n;
+        this.description = d;
+        this.id = i;
+    }
 
-}
+    //get name, description, ID
+    public String getName(){
+        return name;
+    }
 
-//get name, description, ID
-public String getName(){
-    return name;
-}
+    public String getDescription(){
+        return description;
+    }
 
-public String getDescription(){
-    return description;
-}
-
-public String getID(){
-    return id;
-}
+    public String getID(){
+        return id;
+    }
 
 }
 
