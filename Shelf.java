@@ -58,10 +58,10 @@ public class Shelf {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Section: " + section + "\n");
+        StringBuilder sb = new StringBuilder("Section: " + section);
         for (int i = 0; i < compartments.size(); i++) {
             sb.append("Compartment ").append(i).append(": ")
-              .append(compartments.get(i).toString()).append("\n");
+              .append(compartments.get(i).toString());
         }
         return sb.toString();
     }
