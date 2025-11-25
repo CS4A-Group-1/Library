@@ -1,4 +1,5 @@
-public abstract class Item {
+import java.io.*;
+public abstract class Item implements Serializable {
     //declaring variables
     private String name;
     private String description;

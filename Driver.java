@@ -1,4 +1,3 @@
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -99,14 +98,14 @@ public class Driver {
         
         // Edge Case Testing
         step("Testing Error Handling (Invalid Index)");
-        try {
-            System.out.println("Attempting to access Shelf 99 (Invalid)...");
-            storage.getShelves().get(99); 
-        } catch (IndexOutOfBoundsException e) {
+
+        System.out.println("Attempting to access Shelf 99 (Invalid)...");
+        Compartment errCompartment = storage.getCompartment(0,99); 
+        if (errCompartment == null)
             System.out.println("Caught expected error: Shelf index out of bounds.");
-        }
-
-
+        else
+            System.out.println("Compartment found when expecting error");
+        
         // 10) Save
         step("Save to file");
         boolean saved = LibraryFileIO.saveLibraryData(storage, filename);

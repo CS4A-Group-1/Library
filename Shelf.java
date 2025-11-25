@@ -1,6 +1,5 @@
-import java.util.ArrayList;
-
-public class Shelf {
+import java.io.*;
+public class Shelf implements Serializable {
     private static final int Max = 15;
     private String section;
     private Compartment[] compartments;
@@ -52,7 +51,7 @@ public class Shelf {
             throw new IndexOutOfBoundsException("Invalid compartment index.");
         }
 
-        if(compartments[i] != null){
+        if(compartments[i] == null){
             compartments[i] = new Compartment(item);
             return true;
         }else{

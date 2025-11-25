@@ -17,11 +17,12 @@ public class LibraryDisplay {
             
             for (int compartmentIndex = 0; compartmentIndex < compartments.length; compartmentIndex++) {
                 Compartment currentCompartment = compartments[compartmentIndex];
-                
-                if (currentCompartment.getItem() != null && !currentCompartment.getIsCheckedOut()) {
-                    System.out.println("Location: Shelf " + shelfIndex + ", Compartment " + compartmentIndex);
-                    System.out.println("Item Details: " + currentCompartment.getItem().toString());
-                    System.out.println("----------------------------------------");
+                if (currentCompartment != null) {
+                    if (currentCompartment.getItem() != null && !currentCompartment.getIsCheckedOut()) {
+                        System.out.println("Location: Shelf " + shelfIndex + ", Compartment " + compartmentIndex);
+                        System.out.println("Item Details: " + currentCompartment.getItem().toString());
+                        System.out.println("----------------------------------------");
+                    }
                 }
             }
         }
@@ -40,12 +41,13 @@ public class LibraryDisplay {
             
             for (int compartmentIndex = 0; compartmentIndex < compartments.length; compartmentIndex++) {
                 Compartment currentCompartment = compartments[compartmentIndex];
-                
-                if (currentCompartment.getItem() != null && currentCompartment.getIsCheckedOut()) {
-                    System.out.println("Item: " + currentCompartment.getItem().toString());
-                    System.out.println("   Borrower: " + currentCompartment.getCurrentBorrower());
-                    System.out.println("   Due Date: " + currentCompartment.getDueDate());
-                    System.out.println("----------------------------------------");
+                if (currentCompartment != null) {
+                    if (currentCompartment.getItem() != null && currentCompartment.getIsCheckedOut()) {
+                        System.out.println("Item: " + currentCompartment.getItem().toString());
+                        System.out.println("   Borrower: " + currentCompartment.getCurrentBorrower());
+                        System.out.println("   Due Date: " + currentCompartment.getDueDate());
+                        System.out.println("----------------------------------------");
+                    }
                 }
             }
         }

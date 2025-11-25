@@ -1,4 +1,5 @@
-public class Magazine extends Item {
+import java.io.*;
+public class Magazine extends Item implements Serializable{
     //declaring variables
     public String title;
     public String edition;

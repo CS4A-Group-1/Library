@@ -43,17 +43,8 @@ public class LibraryStorage implements Serializable {
         }
         try {
             Shelf selectedShelf = this.libraryShelves.get(shelf);
-            Compartment selectedCompartment = selectedShelf.getCompartment(compartment);
-            // if compartment has an item, return false
-            if (selectedCompartment.getItem() != null) {
-                return false;
-            } else {
-                Compartment newCompartment = new Compartment(item);
-                selectedShelf.setCompartment(newCompartment, compartment);
-                return true;
-            }
-        }
-        catch (IndexOutOfBoundsException ex) {
+            return selectedShelf.setCompartment(item, compartment);
+        } catch (IndexOutOfBoundsException  ex){
             return false;
         }
     }
@@ -64,12 +55,8 @@ public class LibraryStorage implements Serializable {
         }
         try {
             Shelf selectedShelf = this.libraryShelves.get(shelf);
-            if (!selectedShelf.getCompartment(compartment).getIsCheckedOut()) {
-                Compartment newCompartment = new Compartment(item);
-                selectedShelf.setCompartment(newCompartment, compartment);
-                return true;
-            } 
-            else return false;
+            selectedShelf.removeCompartment(compartment);
+            return selectedShelf.setCompartment(item, compartment);
         }
         catch (IndexOutOfBoundsException ex) {
             return false;
@@ -80,9 +67,7 @@ public class LibraryStorage implements Serializable {
         try {
             Shelf selectedShelf = this.libraryShelves.get(shelf);
             Compartment selectedCompartment = selectedShelf.getCompartment(compartment);
-            if (!selectedCompartment.getIsCheckedOut()) 
-                return selectedCompartment;
-            else return null;
+            return selectedCompartment;
         }
         catch (IndexOutOfBoundsException ex) {
             return null;
@@ -113,7 +98,7 @@ public class LibraryStorage implements Serializable {
     public ArrayList<Item> getCheckedInItems() {
         ArrayList<Item> items = new ArrayList<>();
         for (Shelf shelf: this.libraryShelves) {
-            ArrayList<Compartment> compartments = shelf.getCompartments();
+            Compartment[] compartments = shelf.getCompartments();
             for (Compartment c: compartments) {
                 if (!c.getIsCheckedOut()) {
                     items.add(c.getItem());
@@ -126,7 +111,7 @@ public class LibraryStorage implements Serializable {
     public ArrayList<Item> getCheckedOutItems() {
         ArrayList<Item> items = new ArrayList<>();
         for (Shelf shelf: this.libraryShelves) {
-            ArrayList<Compartment> compartments = shelf.getCompartments();
+            Compartment[] compartments = shelf.getCompartments();
             for (Compartment c: compartments) {
                 if (c.getIsCheckedOut()) {
                     items.add(c.getItem());
@@ -140,12 +125,18 @@ public class LibraryStorage implements Serializable {
         try {
             Shelf selectedShelf1 = this.libraryShelves.get(shelf1);
             Compartment selectedCompartment1 = selectedShelf1.getCompartment(compartment1);
+            Item item1 = selectedCompartment1.getItem();
+            selectedShelf1.removeCompartment(compartment1);
             Shelf selectedShelf2 = this.libraryShelves.get(shelf2);
             Compartment selectedCompartment2 = selectedShelf2.getCompartment(compartment2);
+            Item item2 = selectedCompartment2.getItem();
+            selectedShelf2.removeCompartment(compartment2);
             if ((selectedCompartment1.getIsCheckedOut() == false) && (selectedCompartment2.getIsCheckedOut() == false)) {
-                selectedShelf2.setCompartment(selectedCompartment1, compartment2);
-                selectedShelf1.setCompartment(selectedCompartment2, compartment1);
-                return true;
+                if (selectedShelf2.setCompartment(item1, compartment2)) {
+                    return (selectedShelf1.setCompartment(item2, compartment1));
+                } else {
+                    return false;
+                }
             } else return false;
         }
         catch (IndexOutOfBoundsException ex) {
