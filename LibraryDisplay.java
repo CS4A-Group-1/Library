@@ -9,15 +9,14 @@ public class LibraryDisplay {
         System.out.println("       ITEMS CURRENTLY IN STORAGE       ");
         System.out.println("========================================");
         
-        
         ArrayList<Shelf> shelves = libraryStorage.getShelves();
         
         for (int shelfIndex = 0; shelfIndex < shelves.size(); shelfIndex++) {
             Shelf currentShelf = shelves.get(shelfIndex);
-            ArrayList<Compartment> compartments = currentShelf.getCompartments();
+            Compartment[] compartments = currentShelf.getCompartments();
             
-            for (int compartmentIndex = 0; compartmentIndex < compartments.size(); compartmentIndex++) {
-                Compartment currentCompartment = compartments.get(compartmentIndex);
+            for (int compartmentIndex = 0; compartmentIndex < compartments.length; compartmentIndex++) {
+                Compartment currentCompartment = compartments[compartmentIndex];
                 
                 if (currentCompartment.getItem() != null && !currentCompartment.getIsCheckedOut()) {
                     System.out.println("Location: Shelf " + shelfIndex + ", Compartment " + compartmentIndex);
@@ -37,10 +36,10 @@ public class LibraryDisplay {
         
         for (int shelfIndex = 0; shelfIndex < shelves.size(); shelfIndex++) {
             Shelf currentShelf = shelves.get(shelfIndex);
-            ArrayList<Compartment> compartments = currentShelf.getCompartments();
+            Compartment[] compartments = currentShelf.getCompartments();
             
-            for (int compartmentIndex = 0; compartmentIndex < compartments.size(); compartmentIndex++) {
-                Compartment currentCompartment = compartments.get(compartmentIndex);
+            for (int compartmentIndex = 0; compartmentIndex < compartments.length; compartmentIndex++) {
+                Compartment currentCompartment = compartments[compartmentIndex];
                 
                 if (currentCompartment.getItem() != null && currentCompartment.getIsCheckedOut()) {
                     System.out.println("Item: " + currentCompartment.getItem().toString());
