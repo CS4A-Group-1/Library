@@ -11,18 +11,16 @@ public class Driver {
     public static void main(String[] args) {
         System.out.println("Initializing Library System...");
 
-        // 1) Restore or bootstrap
-        String filename = "library_data.dat";
-        LibraryStorage storage;
-        if (new File(filename).exists()) {
-            System.out.println("Loading from file...");
-            storage = LibraryFileIO.loadLibraryData(filename);
-        } else {
+   String filename = "library_data.dat";
+        
+        LibraryStorage storage = LibraryFileIO.loadLibraryData(filename);
+        if (storage.getShelves().isEmpty()) {
             System.out.println("Starting with empty storage...");
-            storage = new LibraryStorage();
             storage.addShelf(new Shelf());
             storage.addShelf(new Shelf());
             storage.addShelf(new Shelf());
+        } else {
+            System.out.println("Loading from file...");
         }
         // 2) Create real items
         step("Create items");
@@ -117,3 +115,4 @@ public class Driver {
         System.out.println("\nDone");
     }
 }
+
