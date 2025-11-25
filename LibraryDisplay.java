@@ -1,16 +1,14 @@
 import java.util.ArrayList;
 
 public class LibraryDisplay {
-    private final LibraryStorage libraryStorage;
+    
+    private LibraryDisplay() {}
 
-    public LibraryDisplay(LibraryStorage libraryStorage) {
-        this.libraryStorage = libraryStorage;
-    }
-
-    public void printItemsInStorage() {
+    public static void printItemsInStorage(LibraryStorage libraryStorage) {
         System.out.println("\n========================================");
         System.out.println("       ITEMS CURRENTLY IN STORAGE       ");
         System.out.println("========================================");
+        
         
         ArrayList<Shelf> shelves = libraryStorage.getShelves();
         
@@ -30,7 +28,7 @@ public class LibraryDisplay {
         }
     }
 
-    public void printCheckedOutItems() {
+    public static void printCheckedOutItems(LibraryStorage libraryStorage) {
         System.out.println("\n========================================");
         System.out.println("          CHECKED OUT ITEMS             ");
         System.out.println("========================================");
@@ -43,6 +41,7 @@ public class LibraryDisplay {
             
             for (int compartmentIndex = 0; compartmentIndex < compartments.size(); compartmentIndex++) {
                 Compartment currentCompartment = compartments.get(compartmentIndex);
+                
                 if (currentCompartment.getItem() != null && currentCompartment.getIsCheckedOut()) {
                     System.out.println("Item: " + currentCompartment.getItem().toString());
                     System.out.println("   Borrower: " + currentCompartment.getCurrentBorrower());
@@ -53,4 +52,3 @@ public class LibraryDisplay {
         }
     }
 }
-
