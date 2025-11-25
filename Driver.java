@@ -1,16 +1,17 @@
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Driver {
 
-    // Minimal concrete item for testing, we can just remove this when real subclasses are ready.
-    private static final class TestItem extends Item {
-        public TestItem(String name, String description, String id) {
-            super(name, description, id);
-        }
-        @Override
-        public String toString() {
-            return "TestItem{name=" + getName() + ", id=" + getId() + "}";
-        }
+    // Helper method 
+    private static Compartment getCompartment(LibraryStorage storage, int shelfIndex, int compIndex) {
+        ArrayList<Shelf> shelves = storage.getShelves();
+        if (shelfIndex < 0 || shelfIndex >= shelves.size()) return null;
+        Shelf shelf = shelves.get(shelfIndex);
+        ArrayList<Compartment> comps = shelf.getCompartments();
+        if (compIndex < 0 || compIndex >= comps.size()) return null;
+        return comps.get(compIndex);
     }
 
     private static void step(String label) {
@@ -18,89 +19,113 @@ public class Driver {
     }
 
     public static void main(String[] args) {
-        LibraryStorage storage = new LibraryStorage();
+        System.out.println("Initializing Library System...");
+
+        // 1) Restore or bootstrap
+        String filename = "library_data.dat";
+        LibraryStorage storage;
+        if (new File(filename).exists()) {
+            System.out.println("Loading from file...");
+            storage = LibraryFileIO.loadLibraryData(filename);
+        } else {
+            System.out.println("Starting with empty storage...");
+            storage = new LibraryStorage();
+            storage.addShelf(new Shelf());
+            storage.addShelf(new Shelf());
+            storage.addShelf(new Shelf());
+        }
+
         LibraryDisplay display = new LibraryDisplay(storage);
 
-        // 1) Add items
-        step("Add items");
-        Item duneBook = new TestItem("Book: Dune", "placeholder", "BOOK-001");
-        Item interstellarMovie = new TestItem("Movie: Interstellar", "placeholder", "MOVIE-002");
-        try {
-            boolean placedDune = storage.addItem(duneBook, 0, 0);
-            boolean placedInterstellar = storage.addItem(interstellarMovie, 0, 1);
-            System.out.println("addItem(Dune, 0,0) -> " + placedDune);
-            System.out.println("addItem(Interstellar, 0,1) -> " + placedInterstellar);
-        } catch (Throwable t) {
-            System.out.println("[SKIPPED] addItem not implemented yet");
-        }
+        // 2) Create real items
+        step("Create items");
+        ArrayList<String> cast = new ArrayList<>();
+        cast.add("Cillian Murphy");
+        cast.add("Robert Downey Jr.");
+        cast.add("Emily Blunt");
+        Movie oppenheimer = new Movie(
+                "Oppenheimer",
+                "Biographical thriller film",
+                "MOV-2023-OPP",
+                "Oppenheimer",
+                "Christopher Nolan",
+                cast
+        );
 
-        // 2) Get items
+        Magazine timeJan = new Magazine(
+                "Time Magazine",
+                "Weekly news magazine",
+                "MAG-2024-JAN",
+                "Time",
+                "January 2024 Issue"
+        );
+
+        // 3) Add items
+        step("Add items");
+        boolean putMovie = storage.addItem(oppenheimer, 0, 0);
+        boolean putMag = storage.addItem(timeJan, 0, 1);
+        System.out.println("addItem(oppenheimer, 0,0) -> " + putMovie);
+        System.out.println("addItem(timeJan, 0,1) -> " + putMag);
+
+        // 4) Get items 
         step("Get items");
         try {
-            System.out.println("getItem(0,0) -> " + storage.getItem(0, 0));
-            System.out.println("getItem(0,1) -> " + storage.getItem(0, 1));
-        } catch (Throwable t) {
-            System.out.println("[SKIPPED] getItem not implemented yet");
+            System.out.println("getItem(0,0) -> " + storage.getCompartment(0, 0).getItem());
+            System.out.println("getItem(0,1) -> " + storage.getCompartment(0, 1).getItem());
+        } catch (Exception e) {
+            System.out.println("Could not get item (might be null or invalid)");
         }
 
-         // 3) Checkout using compartment reference from shelf
-        step("Checkout via Compartment");
-        try {
-            Shelf shelf0 = storage.getShelf(0);                   
-            Compartment slot00 = shelf0 != null ? shelf0.getCompartment(0) : null;  
-            boolean checkedOut;
-            if (slot00 != null) {
-                checkedOut = storage.checkOutItem(slot00, "Alice", new Date());
-                System.out.println("checkOutItem(slot00, Alice, today) -> " + checkedOut);
-            } else {
-                checkedOut = storage.checkOutItem(0, 0, "Alice", new Date());
-                System.out.println("checkOutItem(0,0, Alice, today) -> " + checkedOut);
+        // 5) Checkout using a Compartment reference 
+        step("Checkout by compartment");
+        Compartment slot00 = getCompartment(storage, 0, 0);
+        if (slot00 != null) { 
+            Date due = storage.checkOutItem(slot00, "John Smith");
+            boolean checkedOut = (due != null);
+            System.out.println("checkOutItem(slot00, John Smith) -> " + checkedOut);
+            if (checkedOut) {
+                System.out.println("Due date: " + due);
             }
-        } catch (Throwable t) {
-            System.out.println("[SKIPPED] checkOutItem not implemented yet");
+        } else {
+            System.out.println("slot00 not found");
         }
 
-         // 4) Displays
-        step("Displays");
-        try {
-            display.printItemsInStorage();
-            display.printCheckedOutItems();
-        } catch (Throwable t) {
-            System.out.println("[SKIPPED] display methods not ready");
+        // 6) Show checked-out items
+        step("Display checked-out items");
+        display.printCheckedOutItems();
+
+        // 7) Check in using a Compartment reference 
+        step("Check in by compartment");
+        Compartment slot00Again = getCompartment(storage, 0, 0);
+        if (slot00Again != null) {
+            boolean checkedIn = storage.checkInItem(slot00Again); 
+            System.out.println("checkInItem(slot00) -> " + checkedIn);
         }
+
+        // 8) Show items in storage
+        step("Display items in storage");
+        display.printItemsInStorage();
+
+        // 9) Swap two compartments
+        step("Swap items (0,0) <-> (0,1)");
+        boolean swapped = storage.swapItems(0, 0, 0, 1);
+        System.out.println("swapItems(0,0, 0,1) -> " + swapped);
+        display.printItemsInStorage();
         
-        // 5) Check in
-        step("Check in");
+        // Edge Case Testing
+        step("Testing Error Handling (Invalid Index)");
         try {
-            boolean checkedIn = storage.checkInItem(0, 0);
-            System.out.println("checkInItem(0,0) -> " + checkedIn);
-        } catch (Throwable t) {
-            System.out.println("[SKIPPED] checkInItem not implemented yet");
+            System.out.println("Attempting to access Shelf 99 (Invalid)...");
+            storage.getShelves().get(99); 
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Caught expected error: Shelf index out of bounds.");
         }
 
-         // 6) Swap
-        step("Swap");
-        try {
-            Item natureMagazine = new TestItem("Magazine: Nature", "placeholder", "MG-003");
-            storage.addItem(natureMagazine, 0, 2);
-            boolean swapped = storage.swapItems(0, 1, 0, 2);
-            System.out.println("swapItems(0,1) <-> (0,2) -> " + swapped);
-            System.out.println("post-swap getItem(0,1) -> " + storage.getItem(0, 1));
-            System.out.println("post-swap getItem(0,2) -> " + storage.getItem(0, 2));
-        } catch (Throwable t) {
-            System.out.println("[SKIPPED] swapItems not implemented yet");
-        }
 
-        // 7) Binary I/O
-        step("Binary I/O");
-        try {
-            boolean saved = storage.saveToFile();
-            System.out.println("saveToFile() -> " + saved);
-            LibraryStorage loaded = storage.loadFromFile();
-            System.out.println("loadFromFile() -> " + (loaded != null));
-        } catch (Throwable t) {
-            System.out.println("[SKIPPED] file I/O not implemented yet");
-        }
+        // 10) Save
+        step("Save to file");
+        boolean saved = LibraryFileIO.saveLibraryData(storage, filename);
+        System.out.println("saveLibraryData -> " + saved);
 
         System.out.println("\nDone");
     }
