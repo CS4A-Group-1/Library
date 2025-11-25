@@ -4,16 +4,6 @@ import java.util.Date;
 
 public class Driver {
 
-    // Helper method 
-    private static Compartment getCompartment(LibraryStorage storage, int shelfIndex, int compIndex) {
-        ArrayList<Shelf> shelves = storage.getShelves();
-        if (shelfIndex < 0 || shelfIndex >= shelves.size()) return null;
-        Shelf shelf = shelves.get(shelfIndex);
-        ArrayList<Compartment> comps = shelf.getCompartments();
-        if (compIndex < 0 || compIndex >= comps.size()) return null;
-        return comps.get(compIndex);
-    }
-
     private static void step(String label) {
         System.out.println("\n== " + label);
     }
@@ -34,9 +24,6 @@ public class Driver {
             storage.addShelf(new Shelf());
             storage.addShelf(new Shelf());
         }
-
-        LibraryDisplay display = new LibraryDisplay(storage);
-
         // 2) Create real items
         step("Create items");
         ArrayList<String> cast = new ArrayList<>();
@@ -78,7 +65,7 @@ public class Driver {
 
         // 5) Checkout using a Compartment reference 
         step("Checkout by compartment");
-        Compartment slot00 = getCompartment(storage, 0, 0);
+        Compartment slot00 = storage.getCompartment( 0, 0);
         if (slot00 != null) { 
             Date due = storage.checkOutItem(slot00, "John Smith");
             boolean checkedOut = (due != null);
@@ -90,27 +77,27 @@ public class Driver {
             System.out.println("slot00 not found");
         }
 
-        // 6) Show checked-out items
+        // 6) Show checked-out items 
         step("Display checked-out items");
-        display.printCheckedOutItems();
+        LibraryDisplay.printCheckedOutItems(storage);
 
         // 7) Check in using a Compartment reference 
         step("Check in by compartment");
-        Compartment slot00Again = getCompartment(storage, 0, 0);
+        Compartment slot00Again = storage.getCompartment(0, 0);
         if (slot00Again != null) {
             boolean checkedIn = storage.checkInItem(slot00Again); 
             System.out.println("checkInItem(slot00) -> " + checkedIn);
         }
 
-        // 8) Show items in storage
+        // 8) Show items in storage 
         step("Display items in storage");
-        display.printItemsInStorage();
+        LibraryDisplay.printItemsInStorage(storage);
 
         // 9) Swap two compartments
         step("Swap items (0,0) <-> (0,1)");
         boolean swapped = storage.swapItems(0, 0, 0, 1);
         System.out.println("swapItems(0,0, 0,1) -> " + swapped);
-        display.printItemsInStorage();
+        LibraryDisplay.printItemsInStorage(storage); 
         
         // Edge Case Testing
         step("Testing Error Handling (Invalid Index)");
