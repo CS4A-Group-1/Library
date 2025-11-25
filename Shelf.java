@@ -43,7 +43,7 @@ public class Shelf {
     }
 
     //add a new compartment with a item
-    public boolean addCompartment(Item item, int i) {
+    public boolean setCompartment(Item item, int i) {
         if (i < 0 || i >= compartments.length) {
             throw new IndexOutOfBoundsException("Invalid compartment index.");
         }
