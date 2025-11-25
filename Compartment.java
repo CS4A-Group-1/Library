@@ -23,6 +23,26 @@ public class Compartment implements Serializable {
         this.item = i;
     }
 
+    public Compartment(Compartment c){
+        if (c == null)
+            throw new IllegalStateException("Compartment cannot be null.");
+
+        if (c.item instanceof Book) this.item = new Book((Book)c.item);
+        if (c.item instanceof Magazine) this.item = new Magazine((Magazine)item);
+        if (c.item instanceof Movie) this.item = new Movie((Movie)item);
+
+        this.isCheckedOut = c.isCheckedOut;
+        this.currentBorrower = c.currentBorrower;
+
+        if (c.checkoutDate != null){
+            this.checkoutDate = new Date(c.checkoutDate.getTime());
+        } else{
+            this.checkoutDate = null;
+        }
+        
+    }
+
+
     // If item is already checked out, return false.
     public boolean checkOut(String borrower) {
         if (isCheckedOut) return false;
