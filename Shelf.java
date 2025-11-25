@@ -20,6 +20,10 @@ public class Shelf {
     }
 
     public void removeCompartment(int i){
+        if (i < 0 || i >= compartments.length) {
+            throw new IndexOutOfBoundsException("Invalid compartment index.");
+        }
+        
         compartments[i] = null;
     }
 
